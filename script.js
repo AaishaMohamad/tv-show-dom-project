@@ -26,12 +26,25 @@ function makePageForEpisodes(episodeList) {
   let episodeSummary=document.createElement("p");
   episodeSummary.className="summary"
   let theSummary=episodeList[i].summary;
-  let newSummary=theSummary.substring(3);
-  episodeSummary.innerText=newSummary;
+  episodeSummary.innerHTML=theSummary;
   episodeDiv.appendChild(episodeSummary);
-  }
+  };
+};
+const footer=document.createElement("div")
+footer.setAttribute("id","footer");
+footer.className="footer";
+document.body.appendChild(footer);
 
-  // rootElem.textContent = `Got ${episodeList.length} episode(s)`;
-}
+let link=document.createElement("a");
+link.href="https://www.tvmaze.com";
+link.className="footerLink";
+link.innerText=" TVMaze.com";
+let footerText=document.createElement("p");
+footerText.innerHTML="<p><b>Data originated from </p></b>";
+// const footerInnerText=footerText+link;
+footer.appendChild(footerText);
+footer.appendChild(link);
 
 window.onload = setup;
+
+
