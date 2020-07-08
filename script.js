@@ -3,8 +3,6 @@ let searchBox;
 function setup() {
  const allEpisodes = getAllEpisodes();
   makePageForEpisodes(allEpisodes);
-  searchBox=document.getElementById("searchInput");
-searchBox.addEventListener("keyup", searchEpisodes)
 }
 
 function makePageForEpisodes(episodeList) {
@@ -53,9 +51,9 @@ footer.appendChild(link);
 
 function searchEpisodes(){
  
-  let allOfTheEpisodes=getAllEpisodes();
+    let allOfTheEpisodes=getAllEpisodes();
 
-  let InputValue=searchBox.value;
+    let InputValue=searchBox.value;
   
    let filteredEpisodes=allOfTheEpisodes.filter(episode =>
    episodeMatchesQuery(episode,InputValue));
@@ -65,7 +63,11 @@ function searchEpisodes(){
 }
 
 function episodeMatchesQuery(ep,searchInput){
-  return (ep.name.includes(searchInput)|| ep.summary.includes(searchInput));
+  let episode=ep.name.toLowerCase();
+
+  let summary=ep.summary.toLowerCase();
+ 
+  return (episode.includes(searchInput)|| summary.includes(searchInput));
 };
 searchBox=document.getElementById("searchInput");
 searchBox.addEventListener("keyup", searchEpisodes)
