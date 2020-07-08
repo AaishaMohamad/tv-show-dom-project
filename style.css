@@ -2,17 +2,29 @@ body{
 background-color:#577357;
 margin: 0;
 }
+#searchBoxDiv{
+  display: flex;
+  align-items: baseline;
+}
+
+.displayedEpisodes{
+  margin-left:1% ;
+  color: white;
+  font-weight: bold;
+}
 
 .display{
   display: flex;
  border:5px solid #bfffbf;
  flex-basis: min-content;
  flex-flow: column;
+ background-color: whitesmoke;
+ margin-bottom: 4%;
 }
 
 .footer{
   display: flex;
-  background-color: #bfffbf
+  background-color: whitesmoke;
 }
 .footerLink{
   padding-top: 32px;
@@ -30,5 +42,5 @@ margin: 0;
   margin-right: 10%;
   margin-bottom: 10%;
   margin-top: 10%;
-  background-color:#6eaa65;
+ 
 }
