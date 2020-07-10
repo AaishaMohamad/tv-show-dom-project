@@ -15,10 +15,10 @@ margin: 0;
 
 .display{
   display: flex;
- border:5px solid #bfffbf;
+ border:5px solid whitesmoke;
  flex-basis: min-content;
  flex-flow: column;
- background-color: whitesmoke;
+ background-color:  #bfffbf;
  margin-bottom: 4%;
 }
 
