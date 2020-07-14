@@ -3,9 +3,32 @@ let searchBox;
 let seasonAndEpisode;
 
 function setup() {
- const allEpisodes = getAllEpisodes();
-  makePageForEpisodes(allEpisodes);
+  fetch("https://api.tvmaze.com/shows/82/episodes")
+  .then(function(response) {
+    if(response.ok) {
+      return response.json();
+    } else {
+      console.log("ooops!");
+    }
+  }).then(function(data) {
+    makePageForEpisodes(data);
+  });
 }
+
+// function fetchEpisodes(){
+// fetch("https://api.tvmaze.com/shows/82/episodes")
+// .then(function(response) {
+//   if(response.ok) {
+//     return response.json();
+//   } else {
+//     console.log("ooops!");
+//   }
+// }).then(function(data) {
+//   console.log(data);
+// });
+// }
+
+
 
 function makePageForEpisodes(episodeList) {
   const rootElem = document.getElementById("root");
@@ -14,11 +37,13 @@ function makePageForEpisodes(episodeList) {
 
  for(let i=0;i<episodeList.length;i++){
   let episodeDiv=document.createElement("div");
+
   episodeDiv.className="display";
   rootElem.appendChild(episodeDiv);
   
   let episodeName=document.createElement("h3");
   seasonAndEpisode="S0"+episodeList[i].season+"E0"+episodeList[i].number;
+  episodeDiv.setAttribute("id",seasonAndEpisode);
   episodeName.innerText=episodeList[i].name+"-"+seasonAndEpisode;
   episodeDiv.appendChild(episodeName);
 
@@ -73,32 +98,27 @@ let allOfTheEpisodes=getAllEpisodes();
   searchBox=document.getElementById("searchInput");
   searchBox.addEventListener("keyup", searchEpisodes);
 
-
-    let selectBox=document.getElementById("selectBox");
-    for(let i=0;i<allOfTheEpisodes.length;i++){
-      let option=document.createElement("option");
-      episodeName=allOfTheEpisodes[i].name;
-      seasonAndEpisode="S0"+allOfTheEpisodes[i].season+"E0"+allOfTheEpisodes[i].number;
-      let joined=seasonAndEpisode+"-"+episodeName;
-      option.innerText=joined;
-      selectBox.appendChild(option);
-    };
     
-  
-    function activateOptions(){
-      let options=document.querySelectorAll("option");
-      for(let i=0;i<options.length;i++){
-        
-        let oneO=options[i];
-        options[i].addEventListener("click",showEpisode)
-       function showEpisode(option){
-         let allOfTheEpisodes=getAllEpisodes();
+      let selectBox=document.getElementById("selectBox");
+      for(let i=0;i<allOfTheEpisodes.length;i++){
+        let option=document.createElement("option");
+        episodeName=allOfTheEpisodes[i].name;
+        seasonAndEpisode="S0"+allOfTheEpisodes[i].season+"E0"+allOfTheEpisodes[i].number;
+        option.value= seasonAndEpisode;
+        let joined=seasonAndEpisode+"-"+episodeName;
+        option.innerText=joined;
+        selectBox.appendChild(option);
+      };
 
-          
-        }
-      }
-     };
+      function getFirstPartOFText(event){
+        let selectedOption=event.target.value;
+        console.log(selectedOption);
+        window.location.hash = "#"+selectedOption;
+      };
 
-    activateOptions();
- 
-    // .addEventListener("click",showEpisode);
+      let select=document.getElementById("selectBox");
+      console.log(select);
+      select.addEventListener("change",getFirstPartOFText)
+
+
+      
