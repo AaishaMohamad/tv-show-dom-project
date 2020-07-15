@@ -12,21 +12,11 @@ function setup() {
     }
   }).then(function(data) {
     makePageForEpisodes(data);
+    makeSelectForEpisodes(data)
   });
 }
 
-// function fetchEpisodes(){
-// fetch("https://api.tvmaze.com/shows/82/episodes")
-// .then(function(response) {
-//   if(response.ok) {
-//     return response.json();
-//   } else {
-//     console.log("ooops!");
-//   }
-// }).then(function(data) {
-//   console.log(data);
-// });
-// }
+
 
 
 
@@ -59,6 +49,30 @@ function makePageForEpisodes(episodeList) {
   episodeDiv.appendChild(episodeSummary);
   };
 };
+function makeSelectForEpisodes(data){
+  let selectB=document.getElementById("selectBox");
+  for(let i=0;i<data.length;i++){
+    let option=document.createElement("option");
+    episodeName=data[i].name;
+    console.log(episodeName);
+    seasonAndEpisode="S0"+data[i].season+"E0"+data[i].number;
+    console.log(seasonAndEpisode)
+    option.innerText= seasonAndEpisode;
+    let joined=seasonAndEpisode+"-"+episodeName;
+    console.log(joined)
+    option.innerText=joined;
+    console.log(option)
+    selectB.appendChild(option);
+  };
+    function getFirstPartOFText(event){
+      let selectedOption=event.target.value;
+      window.location.hash = "#"+selectedOption;
+    };
+    let select=document.getElementById("selectBox");
+    select.addEventListener("change",getFirstPartOFText)
+    
+}
+
 const footer=document.createElement("div")
 footer.setAttribute("id","footer");
 footer.className="footer";
@@ -99,26 +113,68 @@ let allOfTheEpisodes=getAllEpisodes();
   searchBox.addEventListener("keyup", searchEpisodes);
 
     
-      let selectBox=document.getElementById("selectBox");
-      for(let i=0;i<allOfTheEpisodes.length;i++){
-        let option=document.createElement("option");
-        episodeName=allOfTheEpisodes[i].name;
-        seasonAndEpisode="S0"+allOfTheEpisodes[i].season+"E0"+allOfTheEpisodes[i].number;
-        option.value= seasonAndEpisode;
-        let joined=seasonAndEpisode+"-"+episodeName;
-        option.innerText=joined;
-        selectBox.appendChild(option);
-      };
+      // let selectBox=document.getElementById("selectBox");
+      // for(let i=0;i<allOfTheEpisodes.length;i++){
+      //   let option=document.createElement("option");
+      //   episodeName=allOfTheEpisodes[i].name;
+      //   seasonAndEpisode="S0"+allOfTheEpisodes[i].season+"E0"+allOfTheEpisodes[i].number;
+      //   option.value= seasonAndEpisode;
+      //   let joined=seasonAndEpisode+"-"+episodeName;
+      //   option.innerText=joined;
+      //   selectBox.appendChild(option);
+      // };
 
-      function getFirstPartOFText(event){
-        let selectedOption=event.target.value;
+      // function getFirstPartOFText(event){
+      //   let selectedOption=event.target.value;
+      //   window.location.hash = "#"+selectedOption;
+      // };
+
+      // let select=document.getElementById("selectBox");
+      // select.addEventListener("change",getFirstPartOFText)
+
+
+
+
+      let allShows=getAllShows();
+      let selectShow=document.getElementById("showsBox");
+      for(let i=0;i<allShows.length;i++){ 
+       
+       let ShowName=allShows[i].name;
+          let id=allShows[i].id;
+          let option=document.createElement("option");
+          option.innerText=ShowName;
+          option.value=id;
+        selectShow.appendChild(option);
+      };
+   console.log( selectShow)
+
+      // for(let i=0;i<store.length;i++){
+      //   store.sort();
+      //  oneOpt=store[i];
+      //   // option.value=store[i].id;
+      //   selectShow.appendChild(option);
+      // };
+    
+    function displayEpisodes(event){
+      let selectedOption=event.target.value;   
         console.log(selectedOption);
-        window.location.hash = "#"+selectedOption;
-      };
+      fetch("https://api.tvmaze.com/shows/"+selectedOption+"/episodes")
+      .then(function(result){
+        if(result.ok) {
+          return result.json();
+        } else {
+          console.log("ooops!");
+        }
+      }).then(function(data){
+        console.log(data);
+        makePageForEpisodes(data);
+       
+        makeSelectForEpisodes(data);
 
-      let select=document.getElementById("selectBox");
-      console.log(select);
-      select.addEventListener("change",getFirstPartOFText)
+        
 
-
+      });
       
+    };
+      selectShow=document.getElementById("showsBox");
+      selectShow.addEventListener("change",displayEpisodes)
